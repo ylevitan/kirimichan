@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="kirimichan-favicon.ico" type="image/x-icon">
+  <title>Kirimichan’s World of Wonders 🐟</title>
+  <style>
+    body {
+      background: url('kirimichan-travel.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 0.2em;
+    }
+    .tagline {
+      text-align: center;
+      font-style: italic;
+      margin-bottom: 30px;
+    }
+    .tabs {
+      max-width: 800px;
+      margin: auto;
+    }
+    .tab-button {
+      padding: 10px 20px;
+      margin: 5px;
+      background: #ffd6d6;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tab-content {
+      background: rgba(255, 255, 255, 0.9);
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    #hero {
+      width: 80px;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Kirimichan’s World of Wonders 🐟</h1>
+  <p class="tagline">“One salmon’s swim through memory, meaning, and maps.”</p>
+  <img id="hero" src="kirimichan-hero.png" alt="Kirimichan Hero">
+
+  <div class="tabs">
+    <button class="tab-button" onclick="showTab('memoirs')">Memoirs</button>
+    <button class="tab-button" onclick="showTab('travels')">Travels 🌍</button>
+    <button class="tab-button" onclick="showTab('thoughts')">Profound Thoughts 💭</button>
+    <button class="tab-button" onclick="showTab('books')">Books & References 📚</button>
+    <button class="tab-button" onclick="showTab('agency')">Travel Agency ✈️</button>
+
+    <div id="memoirs" class="tab-content hidden">
+      <h2>Kirimichan's Memoirs</h2>
+      <ul>
+        <li>👨‍👩‍👧 Family Histories</li>
+        <li>👫 Siblings Stories</li>
+        <li>🍼 Childhood Memoirs</li>
+        <li>💘 Relationships Diaries</li>
+        <li>👯 Friends Testimonies</li>
+      </ul>
+    </div>
+
+    <div id="travels" class="tab-content hidden">
+      <h2>Kirimichan's Travels</h2>
+      <p>🌍 A spinning globe and magical places visited! (Coming soon...)</p>
+    </div>
+
+    <div id="thoughts" class="tab-content hidden">
+      <h2>Kirimichan's Profound Thoughts</h2>
+      <blockquote>“Even a fish can dream of the stars when swimming in still waters.”</blockquote>
+    </div>
+
+    <div id="books" class="tab-content hidden">
+      <h2>Books & References</h2>
+      <ul>
+        <li>📖 The Adventures of Kirimichan</li>
+        <li>📚 Salmon of Wisdom: A Philosophical Tale</li>
+        <li>🗺️ The Sea is Our School: Geography for Dreamers</li>
+      </ul>
+    </div>
+
+    <div id="agency" class="tab-content hidden">
+      <h2>Welcome to Kirimichan's Travel Agency!</h2>
+      <p>Plan your next adventure with the most curious salmon in the sea 🌊🐟</p>
+      <ul>
+        <li>🏝️ Tropical Escapes</li>
+        <li>🏔️ Mountain Missions</li>
+        <li>🏛️ Cultural Quests</li>
+        <li>📦 Custom Packages with Kirimichan's touch</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function showTab(id) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
