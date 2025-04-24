@@ -70,6 +70,48 @@
     margin: 5px 0;
     }
    }
+
+    #kirimichan-chat {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+#kirimichan-avatar {
+  width: 80px;
+  cursor: pointer;
+  border-radius: 50%;
+  animation: bounce 2s infinite;
+}
+
+#chatbox {
+  width: 250px;
+  background: white;
+  color: black;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+#chat-log {
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+#user-input {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.hidden {
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -133,6 +175,46 @@
       document.getElementById(id).classList.remove('hidden');
       window.onload = () => showTab('memoirs');
     }
+
+    function toggleChat() {
+  document.getElementById("chatbox").classList.toggle("hidden");
+}
+
+function kirimichanReply() {
+  const input = document.getElementById("user-input").value;
+  if (!input) return;
+
+  const log = document.getElementById("chat-log");
+  const userBubble = `<div><strong>You:</strong> ${input}</div>`;
+  log.innerHTML += userBubble;
+
+  // Simple Kirimichan logic — can be replaced with OpenAI API
+  const responses = [
+    "Let’s swim somewhere exciting!",
+    "Every fish has a story.",
+    "I once cycled through Venice — very soggy.",
+    "Tell me your dreams and I’ll map them!"
+  ];
+  const reply = responses[Math.floor(Math.random() * responses.length)];
+
+  const kirimichanBubble = `<div><strong>Kirimichan:</strong> ${reply}</div>`;
+  log.innerHTML += kirimichanBubble;
+  document.getElementById("user-input").value = "";
+
+  // VOICE!
+  const utterance = new SpeechSynthesisUtterance(reply);
+  utterance.lang = 'en-US'; // or 'ja-JP' if you'd like Japanese tone
+  speechSynthesis.speak(utterance);
+}
   </script>
+
+  <div id="kirimichan-chat">
+  <img src="kir_na_velosiped.jpeg" id="kirimichan-avatar" alt="Kirimichan" onclick="toggleChat()" />
+  <div id="chatbox" class="hidden">
+    <div id="chat-log"></div>
+    <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()" />
+  </div>
+</div>
+  
 </body>
 </html>
