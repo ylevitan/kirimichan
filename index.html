@@ -58,6 +58,12 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
+    @media (max-width: 600px) {
+  .tab-button {
+    width: 100%;
+    margin: 5px 0;
+    }
+   }
   </style>
 </head>
 <body>
@@ -71,7 +77,7 @@
     <button class="tab-button" onclick="showTab('thoughts')">Profound Thoughts 💭</button>
     <button class="tab-button" onclick="showTab('books')">Books & References 📚</button>
     <button class="tab-button" onclick="showTab('agency')">Travel Agency ✈️</button>
-    <button class="tab-button" onclick="showTab('memoirs')">Friends Testimonials</button>
+
 
     <div id="memoirs" class="tab-content hidden">
       <h2>Kirimichan's Memoirs</h2>
