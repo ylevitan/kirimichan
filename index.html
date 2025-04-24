@@ -44,6 +44,11 @@
       border-radius: 10px;
       margin-top: 20px;
     }
+    .tab-button:hover {
+       background: #ffb6b6;
+       transform: scale(1.05);
+       transition: all 0.2s ease;
+    }
     .hidden {
       display: none;
     }
@@ -125,6 +130,7 @@
     function showTab(id) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
+      window.onload = () => showTab('memoirs');
     }
   </script>
 </body>
