@@ -47,9 +47,9 @@
       margin-top: 20px;
     }
     .tab-button:hover {
-       background: #ffb6b6;
-       transform: scale(1.05);
-       transition: all 0.2s ease;
+      background: #ffb6b6;
+      transform: scale(1.05);
+      transition: all 0.2s ease;
     }
     .hidden {
       display: none;
@@ -123,7 +123,7 @@
       <ul>
         <li>👨‍👩‍👧 Family Histories</li>
         <li>👫 Siblings Stories</li>
-        <li>🍼 Childhood Memoirs</li>
+        <li>👶 Childhood Memoirs</li>
         <li>💘 Relationships Diaries</li>
         <li>👯 Friends Testimonies</li>
       </ul>
@@ -144,7 +144,7 @@
       <ul>
         <li>📖 The Adventures of Kirimichan</li>
         <li>📚 Salmon of Wisdom: A Philosophical Tale</li>
-        <li>🗺️ The Sea is Our School: Geography for Dreamers</li>
+        <li>📺 The Sea is Our School: Geography for Dreamers</li>
       </ul>
     </div>
 
@@ -152,8 +152,8 @@
       <h2>Welcome to Kirimichan's Travel Agency!</h2>
       <p>Plan your next adventure with the most curious salmon in the sea 🌊🐟</p>
       <ul>
-        <li>🏝️ Tropical Escapes</li>
-        <li>🏔️ Mountain Missions</li>
+        <li>🌽 Tropical Escapes</li>
+        <li>🌄 Mountain Missions</li>
         <li>🏛️ Cultural Quests</li>
         <li>📦 Custom Packages with Kirimichan's touch</li>
       </ul>
@@ -161,10 +161,10 @@
   </div>
 
   <div id="kirimichan-chat">
-    <img src="kir_na_velosiped.jpeg" id="kirimichan-avatar" alt="Kirimichan" onclick="toggleChat()" />
+    <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" alt="Kirimichan Chatbot" onclick="toggleChat()">
     <div id="chatbox" class="hidden">
       <div id="chat-log"></div>
-      <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()" />
+      <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()">
     </div>
   </div>
 
@@ -206,11 +206,10 @@
         speechSynthesis.speak(utterance);
       } catch (error) {
         console.error("Chatbot error:", error);
-        const errorBubble = `<div><strong>Kirimichan:</strong> I'm a little tired, can you try again?</div>`;
+        const errorBubble = `<div><strong>Kirimichan:</strong> I'm a little tired, please try again!</div>`;
         log.innerHTML += errorBubble;
       }
     }
   </script>
-
 </body>
 </html>
