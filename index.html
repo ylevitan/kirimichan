@@ -188,7 +188,7 @@ async function kirimichanReply() {
   log.innerHTML += userBubble;
 
   try {
-    const response = await fetch("https://ylevitan11-kirimichan-chat-clean.hf.space/predict", {
+    const response = await fetch("https://ylevitan11-kirimichan-chat-clean.hf.space/api/predict/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ data: [input] })
