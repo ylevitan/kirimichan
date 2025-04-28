@@ -179,8 +179,8 @@
       document.getElementById("chatbox").classList.toggle("hidden");
     }
 
-   async function kirimichanReply() {
-      const input = document.getElementById("user-input").value;
+async function kirimichanReply() {
+  const input = document.getElementById("user-input").value;
   if (!input) return;
 
   const log = document.getElementById("chat-log");
@@ -188,7 +188,7 @@
   log.innerHTML += userBubble;
 
   try {
-    const response = await fetch("https://ylevitan11-kirimichan-chat-clean.hf.space/run/predict", {
+    const response = await fetch("https://ylevitan11-kirimichan-chat-clean.hf.space/api/predict/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ data: [input] })
@@ -210,6 +210,7 @@
     log.innerHTML += errorBubble;
   }
 }
+
   </script>
 </body>
 </html>
