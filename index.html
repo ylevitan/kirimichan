@@ -184,33 +184,33 @@ async function kirimichanReply() {
   if (!input) return;
 
   const log = document.getElementById("chat-log");
-  const userBubble = `<div><strong>You:</strong> ${input}</div>`;
-  log.innerHTML += userBubble;
+  log.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
 
   try {
-    const response = await fetch("https://ylevitan11-kirimichan-chat-clean.hf.space/api/predict/", {
+    const response = await fetch("https://kirimichan-chatbot.onrender.com/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ data: [input] })
+      body: JSON.stringify({ query: input })
     });
 
     const result = await response.json();
-    const reply = result.data[0] || "Hmm, I'm thinking...";
+    const reply = result.response || "Hmm, I'm thinking...";
 
-    const kirimichanBubble = `<div><strong>Kirimichan:</strong> ${reply}</div>`;
-    log.innerHTML += kirimichanBubble;
+    log.innerHTML += `<div><strong>Kirimichan:</strong> ${reply}</div>`;
     document.getElementById("user-input").value = "";
 
     const utterance = new SpeechSynthesisUtterance(reply);
     utterance.lang = 'en-US';
     speechSynthesis.speak(utterance);
+
+    // Auto-scroll chat
+    log.scrollTop = log.scrollHeight;
+
   } catch (error) {
     console.error("Chatbot error:", error);
-    const errorBubble = `<div><strong>Kirimichan:</strong> I'm a little tired, please try again!</div>`;
-    log.innerHTML += errorBubble;
+    log.innerHTML += `<div><strong>Kirimichan:</strong> I'm a little tired, please try again!</div>`;
   }
 }
-
   </script>
 </body>
 </html>
