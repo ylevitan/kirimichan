@@ -164,6 +164,7 @@
     <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" alt="Kirimichan Chatbot" onclick="toggleChat()">
     <div id="chatbox" class="hidden">
       <div id="chat-log"></div>
+      <div id="chat-loading" style="display:none; font-style: italic; font-size: 13px;">Kirimichan is thinking... 🐟💭</div>
       <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()">
     </div>
   </div>
@@ -184,7 +185,10 @@ async function kirimichanReply() {
   if (!input) return;
 
   const log = document.getElementById("chat-log");
+  const loading = document.getElementById("chat-loading");
   log.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
+  document.getElementById("user-input").value = "";
+  loading.style.display = "block";
 
   try {
     const response = await fetch("https://kirimichan-chatbot.onrender.com/chat", {
@@ -197,19 +201,17 @@ async function kirimichanReply() {
     const reply = result.response || "Hmm, I'm thinking...";
 
     log.innerHTML += `<div><strong>Kirimichan:</strong> ${reply}</div>`;
-    document.getElementById("user-input").value = "";
 
     const utterance = new SpeechSynthesisUtterance(reply);
     utterance.lang = 'en-US';
     speechSynthesis.speak(utterance);
-
-    // Auto-scroll chat
-    log.scrollTop = log.scrollHeight;
-
   } catch (error) {
     console.error("Chatbot error:", error);
     log.innerHTML += `<div><strong>Kirimichan:</strong> I'm a little tired, please try again!</div>`;
   }
+
+  loading.style.display = "none";
+  log.scrollTop = log.scrollHeight;
 }
   </script>
 </body>
