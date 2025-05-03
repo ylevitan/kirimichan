@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="kirimichan-favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="kirimichan-favicon.ico" type="image/x-icon" />
   <title>Kirimichan’s World of Wonders 🐟</title>
   <style>
     body {
@@ -64,12 +64,6 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
-    @media (max-width: 600px) {
-      .tab-button {
-        width: 100%;
-        margin: 5px 0;
-      }
-    }
     #kirimichan-chat {
       position: fixed;
       bottom: 20px;
@@ -90,6 +84,7 @@
       padding: 10px;
       margin-top: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      position: relative;
     }
     #chat-log {
       max-height: 150px;
@@ -103,12 +98,35 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
+    #mic-button.listening {
+      background-color: #ffaaaa;
+      animation: pulse 1.2s infinite;
+      border: 2px solid red;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+    }
+    #swim-fish {
+      width: 40px;
+      position: absolute;
+      bottom: 50px;
+      left: -50px;
+      display: none;
+      animation: swim 2.5s linear forwards;
+    }
+    @keyframes swim {
+      0% { left: -50px; opacity: 0; }
+      10% { opacity: 1; }
+      100% { left: 300px; opacity: 0; }
+    }
   </style>
 </head>
 <body>
   <h1>Kirimichan’s World of Wonders 🐟</h1>
   <p class="tagline">“One salmon’s swim through memory, meaning, and maps.”</p>
-  <img id="hero" src="kir_na_velosiped.jpeg" alt="Kirimichan Hero">
+  <img id="hero" src="kir_na_velosiped.jpeg" alt="Kirimichan Hero" />
 
   <div class="tabs">
     <button class="tab-button" onclick="showTab('memoirs')">Memoirs</button>
@@ -117,50 +135,15 @@
     <button class="tab-button" onclick="showTab('books')">Books & References 📚</button>
     <button class="tab-button" onclick="showTab('agency')">Travel Agency ✈️</button>
 
-    <div id="memoirs" class="tab-content hidden">
-      <h2>Kirimichan's Memoirs</h2>
-      <ul>
-        <li>👨‍👩‍👧 Family Histories</li>
-        <li>👫 Siblings Stories</li>
-        <li>👶 Childhood Memoirs</li>
-        <li>💘 Relationships Diaries</li>
-        <li>👯 Friends Testimonies</li>
-      </ul>
-    </div>
-
-    <div id="travels" class="tab-content hidden">
-      <h2>Kirimichan's Travels</h2>
-      <p>🌍 A spinning globe and magical places visited! (Coming soon...)</p>
-    </div>
-
-    <div id="thoughts" class="tab-content hidden">
-      <h2>Kirimichan's Profound Thoughts</h2>
-      <blockquote>“Even a fish can dream of the stars when swimming in still waters.”</blockquote>
-    </div>
-
-    <div id="books" class="tab-content hidden">
-      <h2>Books & References</h2>
-      <ul>
-        <li>📖 The Adventures of Kirimichan</li>
-        <li>📚 Salmon of Wisdom: A Philosophical Tale</li>
-        <li>📺 The Sea is Our School: Geography for Dreamers</li>
-      </ul>
-    </div>
-
-    <div id="agency" class="tab-content hidden">
-      <h2>Welcome to Kirimichan's Travel Agency!</h2>
-      <p>Plan your next adventure with the most curious salmon in the sea 🌊🐟</p>
-      <ul>
-        <li>🌽 Tropical Escapes</li>
-        <li>🌄 Mountain Missions</li>
-        <li>🏛️ Cultural Quests</li>
-        <li>📦 Custom Packages with Kirimichan's touch</li>
-      </ul>
-    </div>
+    <div id="memoirs" class="tab-content hidden"><h2>Coming soon...</h2></div>
+    <div id="travels" class="tab-content hidden"><h2>Coming soon...</h2></div>
+    <div id="thoughts" class="tab-content hidden"><h2>Coming soon...</h2></div>
+    <div id="books" class="tab-content hidden"><h2>Coming soon...</h2></div>
+    <div id="agency" class="tab-content hidden"><h2>Coming soon...</h2></div>
   </div>
 
   <div id="kirimichan-chat">
-    <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" alt="Kirimichan Chatbot" onclick="toggleChat()">
+    <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" alt="Kirimichan Chatbot" onclick="toggleChat()" />
     <div id="chatbox" class="hidden">
       <div style="margin-bottom: 10px;">
         <label for="voice-select" style="font-size: 14px;">🎙️ Choose a voice:</label>
@@ -168,12 +151,17 @@
       </div>
       <div id="chat-log"></div>
       <div id="chat-loading" style="display:none; font-style: italic; font-size: 13px;">Kirimichan is thinking... 🐟💭</div>
-      <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()">
-      <button onclick="startListening()" style="margin-top: 5px;">🎤 Speak</button>
+      <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()" />
+      <button id="mic-button" onclick="startListening()" style="margin-top: 5px;">🎤 Speak</button>
+      <img id="swim-fish" src="swim-fish.gif" alt="Swimming Fish" />
     </div>
   </div>
 
   <script>
+    const startSound = new Audio("start-listening.mp3");
+    const stopSound = new Audio("stop-listening.mp3");
+    let availableVoices = [];
+
     function showTab(id) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
@@ -183,12 +171,9 @@
       document.getElementById("chatbox").classList.toggle("hidden");
     }
 
-    let availableVoices = [];
-
     function populateVoiceList() {
       const voiceSelect = document.getElementById('voice-select');
       availableVoices = speechSynthesis.getVoices();
-
       voiceSelect.innerHTML = '';
       availableVoices.forEach((voice, index) => {
         const option = document.createElement('option');
@@ -198,39 +183,56 @@
       });
     }
 
-function startListening() {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.continuous = false;
-
-  const log = document.getElementById("chat-log");
-  const inputBox = document.getElementById("user-input");
-
-  log.innerHTML += `<div><em>🎙️ Listening... (speak now)</em></div>`;
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    inputBox.value = transcript;
-  };
-
-  recognition.onerror = (event) => {
-    log.innerHTML += `<div><em>❌ Voice error: ${event.error}</em></div>`;
-  };
-
-  recognition.onend = () => {
-    if (inputBox.value.trim()) {
-      kirimichanReply();
-    } else {
-      log.innerHTML += `<div><em>⚠️ No voice detected.</em></div>`;
-    }
-  };
-
-  recognition.start();
-}
-
-
     speechSynthesis.onvoiceschanged = populateVoiceList;
+
+    function startListening() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.continuous = false;
+
+      const log = document.getElementById("chat-log");
+      const inputBox = document.getElementById("user-input");
+      const micButton = document.getElementById("mic-button");
+      const fish = document.getElementById("swim-fish");
+
+      startSound.play();
+      micButton.classList.add("listening");
+      micButton.disabled = true;
+      micButton.innerText = "🔴 Listening...";
+
+      fish.style.display = "block";
+      fish.style.animation = "none";
+      fish.offsetHeight; // force reflow
+      fish.style.animation = null;
+
+      log.innerHTML += `<div><em>🎙️ Listening... (speak now)</em></div>`;
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        inputBox.value = transcript;
+      };
+
+      recognition.onerror = (event) => {
+        log.innerHTML += `<div><em>❌ Voice error: ${event.error}</em></div>`;
+      };
+
+      recognition.onend = () => {
+        stopSound.play();
+        micButton.classList.remove("listening");
+        micButton.disabled = false;
+        micButton.innerText = "🎤 Speak";
+        fish.style.display = "none";
+
+        if (inputBox.value.trim()) {
+          kirimichanReply();
+        } else {
+          log.innerHTML += `<div><em>⚠️ No voice detected.</em></div>`;
+        }
+      };
+
+      recognition.start();
+    }
 
     async function kirimichanReply() {
       const input = document.getElementById("user-input").value;
@@ -256,7 +258,6 @@ function startListening() {
 
         const utterance = new SpeechSynthesisUtterance(reply);
         utterance.lang = 'en-US';
-
         const selectedVoiceIndex = document.getElementById('voice-select').value;
         if (availableVoices[selectedVoiceIndex]) {
           utterance.voice = availableVoices[selectedVoiceIndex];
