@@ -144,7 +144,7 @@
 
   <div id="kirimichan-chat" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end;">
     <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" alt="Kirimichan Chatbot" onclick="toggleChat(); whisperSecret();" style="width: 80px; height: 80px; border-radius: 50%; position: fixed; bottom: 20px; right: 20px; z-index: 9999; cursor: pointer;" />
-    <div id="chatbox" class="hidden">
+    <div id="chatbox" class="hidden" style="background: white; color: black; border-radius: 10px; padding: 10px; margin-top: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3); width: 280px;">
       <div style="margin-bottom: 10px;">
         <label for="voice-select" style="font-size: 14px;">🎙️ Choose a voice:</label>
         <select id="voice-select" style="width: 100%; padding: 5px; border-radius: 5px;"></select>
@@ -164,20 +164,36 @@
     let availableVoices = [];
 
     function showTab(id) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.add('hidden');
-        tab.classList.remove('memoirs-bg', 'travels-bg', 'thoughts-bg', 'books-bg', 'agency-bg');
-      });
-      const activeTab = document.getElementById(id);
-      activeTab.classList.remove('hidden');
-      if (id === 'memoirs') activeTab.classList.add('memoirs-bg');
-      if (id === 'travels') activeTab.classList.add('travels-bg');
-      if (id === 'thoughts') activeTab.classList.add('thoughts-bg');
-      if (id === 'books') activeTab.classList.add('books-bg');
-      if (id === 'agency') activeTab.classList.add('agency-bg');
-      try {
-        tabSwitchSound.currentTime = 0;
-        tabSwitchSound.play();
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.add('hidden');
+    tab.classList.remove('memoirs-bg', 'travels-bg', 'thoughts-bg', 'books-bg', 'agency-bg');
+  });
+  const activeTab = document.getElementById(id);
+  activeTab.classList.remove('hidden');
+  document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+  activeTab.style.display = 'block';
+  if (id === 'memoirs') activeTab.classList.add('memoirs-bg');
+  if (id === 'travels') activeTab.classList.add('travels-bg');
+  if (id === 'thoughts') activeTab.classList.add('thoughts-bg');
+  if (id === 'books') activeTab.classList.add('books-bg');
+  if (id === 'agency') activeTab.classList.add('agency-bg');
+  try {
+    tabSwitchSound.currentTime = 0;
+    tabSwitchSound.play();
+  } catch (e) {
+    console.warn('Tab switch sound error:', e);
+  }
+  const tabGreetings = {
+    memoirs: "Ahoy, memory divers! Welcome to my soggy past!",
+    travels: "Bonjour! Let’s wander the world — or at least pretend to!",
+    thoughts: "Namaste! Ready to overthink like a deep-sea monk?",
+    books: "Welcome to my library of soggy scrolls and fishy fables!",
+    agency: "Ready to book a vacation with a fish who barely uses Google Maps?"
+  };
+  const greeting = new SpeechSynthesisUtterance(tabGreetings[id] || "Hello, I am Ki-ri-mi-chan!");
+  greeting.lang = 'en-US';
+  speechSynthesis.speak(greeting);
+}
       } catch (e) {
         console.warn('Tab switch sound error:', e);
       }
@@ -311,9 +327,23 @@
     window.onload = () => {
   setTimeout(() => {
     if (typeof showTab === 'function') {
-      showTab('thoughts');
+      showTab('memoirs');
     }
     populateVoiceList();
+    toggleChat();
+    whisperSecret();
+
+    const tabGreetings = {
+  memoirs: "Ahoy, memory divers! Welcome to my soggy past!",
+  travels: "Bonjour! Let’s wander the world — or at least pretend to!",
+  thoughts: "Namaste! Ready to overthink like a deep-sea monk?",
+  books: "Welcome to my library of soggy scrolls and fishy fables!",
+  agency: "Ready to book a vacation with a fish who barely uses Google Maps?"
+};
+const currentTab = 'memoirs';
+const greeting = new SpeechSynthesisUtterance(tabGreetings[currentTab] || "Hello, I am Ki-ri-mi-chan!");
+    greeting.lang = 'en-US';
+    speechSynthesis.speak(greeting);
   }, 100);
 };
   </script>
