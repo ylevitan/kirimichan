@@ -169,6 +169,7 @@
       <div id="chat-log"></div>
       <div id="chat-loading" style="display:none; font-style: italic; font-size: 13px;">Kirimichan is thinking... 🐟💭</div>
       <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()">
+      <button onclick="startListening()" style="margin-top: 5px;">🎤 Speak</button>
     </div>
   </div>
 
@@ -196,6 +197,38 @@
         voiceSelect.appendChild(option);
       });
     }
+
+function startListening() {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.continuous = false;
+
+  const log = document.getElementById("chat-log");
+  const inputBox = document.getElementById("user-input");
+
+  log.innerHTML += `<div><em>🎙️ Listening... (speak now)</em></div>`;
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    inputBox.value = transcript;
+  };
+
+  recognition.onerror = (event) => {
+    log.innerHTML += `<div><em>❌ Voice error: ${event.error}</em></div>`;
+  };
+
+  recognition.onend = () => {
+    if (inputBox.value.trim()) {
+      kirimichanReply();
+    } else {
+      log.innerHTML += `<div><em>⚠️ No voice detected.</em></div>`;
+    }
+  };
+
+  recognition.start();
+}
+
 
     speechSynthesis.onvoiceschanged = populateVoiceList;
 
