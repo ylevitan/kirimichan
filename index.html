@@ -143,7 +143,7 @@
   </div>
 
   <div id="kirimichan-chat">
-    <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" alt="Kirimichan Chatbot" onclick="toggleChat(); whisperSecret();" />
+    <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" style="width: 80px; height: 80px; border-radius: 50%; position: fixed; bottom: 20px; right: 20px; z-index: 9999; cursor: pointer;">
     <div id="chatbox" class="hidden">
       <div style="margin-bottom: 10px;">
         <label for="voice-select" style="font-size: 14px;">🎙️ Choose a voice:</label>
@@ -175,7 +175,12 @@
       if (id === 'thoughts') activeTab.classList.add('thoughts-bg');
       if (id === 'books') activeTab.classList.add('books-bg');
       if (id === 'agency') activeTab.classList.add('agency-bg');
-      tabSwitchSound.play();
+      try {
+        tabSwitchSound.currentTime = 0;
+        tabSwitchSound.play();
+      } catch (e) {
+        console.warn('Tab switch sound error:', e);
+      }
     }
 
     function toggleChat() {
