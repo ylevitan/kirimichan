@@ -142,8 +142,8 @@
     </div>
   </div>
 
-  <div id="kirimichan-chat">
-    <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" style="width: 80px; height: 80px; border-radius: 50%; position: fixed; bottom: 20px; right: 20px; z-index: 9999; cursor: pointer;">
+  <div id="kirimichan-chat" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end;">
+    <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" alt="Kirimichan Chatbot" onclick="toggleChat(); whisperSecret();" style="width: 80px; height: 80px; border-radius: 50%; position: fixed; bottom: 20px; right: 20px; z-index: 9999; cursor: pointer;" />
     <div id="chatbox" class="hidden">
       <div style="margin-bottom: 10px;">
         <label for="voice-select" style="font-size: 14px;">🎙️ Choose a voice:</label>
