@@ -6,7 +6,6 @@
   <link rel="icon" href="kirimichan-favicon.ico" type="image/x-icon">
   <title>Kirimichan’s World of Wonders 🐟</title>
   <style>
-    /* Your existing styles */
     body {
       background: url('kir_w_fone.jpeg') no-repeat center center fixed;
       background-size: cover;
@@ -163,6 +162,10 @@
   <div id="kirimichan-chat">
     <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" alt="Kirimichan Chatbot" onclick="toggleChat()">
     <div id="chatbox" class="hidden">
+      <div style="margin-bottom: 10px;">
+        <label for="voice-select" style="font-size: 14px;">🎙️ Choose a voice:</label>
+        <select id="voice-select" style="width: 100%; padding: 5px; border-radius: 5px;"></select>
+      </div>
       <div id="chat-log"></div>
       <div id="chat-loading" style="display:none; font-style: italic; font-size: 13px;">Kirimichan is thinking... 🐟💭</div>
       <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()">
@@ -174,45 +177,72 @@
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
     }
-    window.onload = () => showTab('memoirs');
 
     function toggleChat() {
       document.getElementById("chatbox").classList.toggle("hidden");
     }
 
-async function kirimichanReply() {
-  const input = document.getElementById("user-input").value;
-  if (!input) return;
+    let availableVoices = [];
 
-  const log = document.getElementById("chat-log");
-  const loading = document.getElementById("chat-loading");
-  log.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
-  document.getElementById("user-input").value = "";
-  loading.style.display = "block";
+    function populateVoiceList() {
+      const voiceSelect = document.getElementById('voice-select');
+      availableVoices = speechSynthesis.getVoices();
 
-  try {
-    const response = await fetch("https://kirimichan-chatbot.onrender.com/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: input })
-    });
+      voiceSelect.innerHTML = '';
+      availableVoices.forEach((voice, index) => {
+        const option = document.createElement('option');
+        option.textContent = `${voice.name} (${voice.lang})${voice.default ? ' [default]' : ''}`;
+        option.value = index;
+        voiceSelect.appendChild(option);
+      });
+    }
 
-    const result = await response.json();
-    const reply = result.response || "Hmm, I'm thinking...";
+    speechSynthesis.onvoiceschanged = populateVoiceList;
 
-    log.innerHTML += `<div><strong>Kirimichan:</strong> ${reply}</div>`;
+    async function kirimichanReply() {
+      const input = document.getElementById("user-input").value;
+      if (!input) return;
 
-    const utterance = new SpeechSynthesisUtterance(reply);
-    utterance.lang = 'en-US';
-    speechSynthesis.speak(utterance);
-  } catch (error) {
-    console.error("Chatbot error:", error);
-    log.innerHTML += `<div><strong>Kirimichan:</strong> I'm a little tired, please try again!</div>`;
-  }
+      const log = document.getElementById("chat-log");
+      const loading = document.getElementById("chat-loading");
+      log.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
+      document.getElementById("user-input").value = "";
+      loading.style.display = "block";
 
-  loading.style.display = "none";
-  log.scrollTop = log.scrollHeight;
-}
+      try {
+        const response = await fetch("https://kirimichan-chatbot.onrender.com/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: input })
+        });
+
+        const result = await response.json();
+        const reply = result.response || "Hmm, I'm thinking...";
+
+        log.innerHTML += `<div><strong>Kirimichan:</strong> ${reply}</div>`;
+
+        const utterance = new SpeechSynthesisUtterance(reply);
+        utterance.lang = 'en-US';
+
+        const selectedVoiceIndex = document.getElementById('voice-select').value;
+        if (availableVoices[selectedVoiceIndex]) {
+          utterance.voice = availableVoices[selectedVoiceIndex];
+        }
+
+        speechSynthesis.speak(utterance);
+      } catch (error) {
+        console.error("Chatbot error:", error);
+        log.innerHTML += `<div><strong>Kirimichan:</strong> I'm a little tired, please try again!</div>`;
+      }
+
+      loading.style.display = "none";
+      log.scrollTop = log.scrollHeight;
+    }
+
+    window.onload = () => {
+      showTab('memoirs');
+      populateVoiceList();
+    };
   </script>
 </body>
 </html>
