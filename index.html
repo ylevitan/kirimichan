@@ -126,6 +126,10 @@
   </div>
 
   <script>
+    const startSound = new Audio("start-listening.mp3");
+    const stopSound = new Audio("stop-listening.mp3");
+    const tabSwitchSound = new Audio("tab-switch.mp3");
+
     const buttons = document.querySelectorAll(".tab-button");
     const contents = document.querySelectorAll(".tab-content");
 
@@ -134,6 +138,12 @@
         const tabId = button.getAttribute("data-tab");
         contents.forEach(content => content.classList.remove("active"));
         document.getElementById(tabId).classList.add("active");
+        try {
+          tabSwitchSound.currentTime = 0;
+          tabSwitchSound.play();
+        } catch (e) {
+          console.warn('Tab switch sound error:', e);
+        }
       });
     });
 
@@ -162,6 +172,7 @@
       const inputBox = document.getElementById("user-input");
       const log = document.getElementById("chat-log");
 
+      startSound.play();
       log.innerHTML += `<div><em>🎙️ Listening... (speak now)</em></div>`;
 
       recognition.onresult = (event) => {
@@ -172,6 +183,7 @@
         log.innerHTML += `<div><em>❌ Voice error: ${event.error}</em></div>`;
       };
       recognition.onend = () => {
+        stopSound.play();
         if (inputBox.value.trim()) {
           kirimichanReply();
         } else {
