@@ -44,29 +44,27 @@
       padding: 20px;
       border-radius: 10px;
       margin-top: 20px;
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
     }
     .tab-button:hover {
       background: #ffb6b6;
       transform: scale(1.05);
       transition: all 0.2s ease;
     }
-    .hidden {
-      display: none;
-    }
-    .tab-content.memoirs-bg { background-image: url('bg-memoirs.jpg'); background-size: cover; background-position: center; }
-    .tab-content.travels-bg { background-image: url('bg-travels.jpg'); background-size: cover; background-position: center; }
-    .tab-content.thoughts-bg { background-image: url('bg-thoughts.jpg'); background-size: cover; background-position: center; }
-    .tab-content.books-bg { background-image: url('bg-books.jpg'); background-size: cover; background-position: center; }
-    .tab-content.agency-bg { background-image: url('bg-agency.jpg'); background-size: cover; background-position: center; }
     #chatbox {
-      width: 250px;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
       background: white;
       color: black;
       border-radius: 10px;
       padding: 10px;
-      margin-top: 10px;
+      width: 280px;
+      z-index: 9999;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      position: relative;
     }
     #chat-log {
       max-height: 150px;
@@ -80,129 +78,68 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
-    #mic-button.listening {
-      background-color: #ffaaaa;
-      animation: pulse 1.2s infinite;
-      border: 2px solid red;
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
-    }
-    #swim-fish {
-      width: 40px;
-      position: absolute;
-      bottom: 50px;
-      left: -50px;
-      display: none;
-      animation: swim 2.5s linear forwards;
-    }
-    @keyframes swim {
-      0% { left: -50px; opacity: 0; }
-      10% { opacity: 1; }
-      100% { left: 300px; opacity: 0; }
+    #mic-button {
+      margin-top: 5px;
     }
   </style>
 </head>
 <body>
   <h1>Kirimichan’s World of Wonders 🐟</h1>
   <p class="tagline">“One salmon’s swim through memory, meaning, and maps.”</p>
-
   <div class="tabs">
-    <button class="tab-button" onclick="showTab('memoirs')">Memoirs</button>
-    <button class="tab-button" onclick="showTab('travels')">Travels 🌍</button>
-    <button class="tab-button" onclick="showTab('thoughts')">Profound Thoughts 💭</button>
-    <button class="tab-button" onclick="showTab('books')">Books & References 📚</button>
-    <button class="tab-button" onclick="showTab('agency')">Travel Agency ✈️</button>
-
-    <div id="memoirs" class="tab-content hidden memoirs-bg">
-      <h2>📜 Kirimichan's Memoirs</h2>
-      <p>Ah, the old tales! From egg to sashimi to existential wanderer. These stories are juicier than wasabi on a first date.</p>
-    </div>
-
-    <div id="travels" class="tab-content hidden travels-bg">
-      <h2>🧭 Kirimichan's Travels</h2>
-      <p>I've seen more ports than a Venetian gondolier. Here's where I've been — or at least where I claim to have been.</p>
-    </div>
-
-    <div id="thoughts" class="tab-content hidden thoughts-bg">
-      <h2>💭 Profound Thoughts</h2>
-      <p>Just because I’m a fish doesn’t mean I’m shallow. Sometimes I think deeper than a trench with low self-esteem.</p>
-    </div>
-
-    <div id="books" class="tab-content hidden books-bg">
-      <h2>📚 Books & References</h2>
-      <p>Every fish needs a shelf. Here's my brain-food — from sushi cookbooks to Zen scrolls, it's all here.</p>
-    </div>
-
-    <div id="agency" class="tab-content hidden agency-bg">
-      <h2>✈️ Kirimichan's Travel Agency</h2>
-      <p>Plan your next adventure with a fish who’s been everywhere, occasionally on purpose. Budget packages include wisdom, whimsy, and waterproof maps.</p>
-    </div>
+    <button class="tab-button" data-tab="memoirs">Memoirs</button>
+    <button class="tab-button" data-tab="travels">Travels 🌍</button>
+    <button class="tab-button" data-tab="thoughts">Profound Thoughts 💭</button>
+    <button class="tab-button" data-tab="books">Books & References 📚</button>
+    <button class="tab-button" data-tab="agency">Travel Agency ✈️</button>
+  </div>
+  <div id="memoirs" class="tab-content">
+    <h2>📜 Kirimichan's Memoirs</h2>
+    <p>Ah, the old tales! From egg to sashimi to existential wanderer.</p>
+  </div>
+  <div id="travels" class="tab-content">
+    <h2>🧭 Kirimichan's Travels</h2>
+    <p>I've seen more ports than a Venetian gondolier.</p>
+  </div>
+  <div id="thoughts" class="tab-content">
+    <h2>💭 Profound Thoughts</h2>
+    <p>Just because I’m a fish doesn’t mean I’m shallow.</p>
+  </div>
+  <div id="books" class="tab-content">
+    <h2>📚 Books & References</h2>
+    <p>Here's my brain-food — from sushi cookbooks to Zen scrolls.</p>
+  </div>
+  <div id="agency" class="tab-content">
+    <h2>✈️ Kirimichan's Travel Agency</h2>
+    <p>Plan your next adventure with a fish who’s been everywhere.</p>
   </div>
 
-  <div id="kirimichan-chat" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end;">
-    <img src="kir_otduxaet.jpeg" id="kirimichan-avatar" alt="Kirimichan Chatbot" onclick="toggleChat(); whisperSecret();" style="width: 80px; height: 80px; border-radius: 50%; position: fixed; bottom: 20px; right: 20px; z-index: 9999; cursor: pointer;" />
-    <div id="chatbox" class="hidden" style="background: white; color: black; border-radius: 10px; padding: 10px; margin-top: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3); width: 280px;">
-      <div style="margin-bottom: 10px;">
-        <label for="voice-select" style="font-size: 14px;">🎙️ Choose a voice:</label>
-        <select id="voice-select" style="width: 100%; padding: 5px; border-radius: 5px;"></select>
-      </div>
-      <div id="chat-log"></div>
-      <div id="chat-loading" style="display:none; font-style: italic; font-size: 13px;">Kirimichan is thinking... 🐟💭</div>
-      <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()" />
-      <button id="mic-button" onclick="startListening()" style="margin-top: 5px;">🎤 Speak</button>
-      <img id="swim-fish" src="swim-fish.gif" alt="Swimming Fish" />
+  <div id="chatbox">
+    <div style="margin-bottom: 10px;">
+      <label for="voice-select">🎙️ Choose a voice:</label>
+      <select id="voice-select" style="width: 100%; padding: 5px; border-radius: 5px;"></select>
     </div>
+    <div id="chat-log"></div>
+    <div id="chat-loading" style="display:none; font-style: italic; font-size: 13px;">Kirimichan is thinking... 🐟💭</div>
+    <input type="text" id="user-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') kirimichanReply()" />
+    <button id="mic-button" onclick="startListening()">🎤 Speak</button>
   </div>
 
   <script>
-    const startSound = new Audio("start-listening.mp3");
-    const stopSound = new Audio("stop-listening.mp3");
-    const tabSwitchSound = new Audio("tab-switch.mp3");
+    const buttons = document.querySelectorAll(".tab-button");
+    const contents = document.querySelectorAll(".tab-content");
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        const tabId = button.getAttribute("data-tab");
+        contents.forEach(content => content.classList.remove("active"));
+        document.getElementById(tabId).classList.add("active");
+      });
+    });
+
+    document.getElementById("memoirs").classList.add("active");
+
     let availableVoices = [];
-
-    function showTab(id) {
-  document.querySelectorAll('.tab-content').forEach(tab => {
-    tab.classList.add('hidden');
-    tab.classList.remove('memoirs-bg', 'travels-bg', 'thoughts-bg', 'books-bg', 'agency-bg');
-  });
-  const activeTab = document.getElementById(id);
-  activeTab.classList.remove('hidden');
-  document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
-  activeTab.style.display = 'block';
-  if (id === 'memoirs') activeTab.classList.add('memoirs-bg');
-  if (id === 'travels') activeTab.classList.add('travels-bg');
-  if (id === 'thoughts') activeTab.classList.add('thoughts-bg');
-  if (id === 'books') activeTab.classList.add('books-bg');
-  if (id === 'agency') activeTab.classList.add('agency-bg');
-  try {
-    tabSwitchSound.currentTime = 0;
-    tabSwitchSound.play();
-  } catch (e) {
-    console.warn('Tab switch sound error:', e);
-  }
-  const tabGreetings = {
-    memoirs: "Ahoy, memory divers! Welcome to my soggy past!",
-    travels: "Bonjour! Let’s wander the world — or at least pretend to!",
-    thoughts: "Namaste! Ready to overthink like a deep-sea monk?",
-    books: "Welcome to my library of soggy scrolls and fishy fables!",
-    agency: "Ready to book a vacation with a fish who barely uses Google Maps?"
-  };
-  const greeting = new SpeechSynthesisUtterance(tabGreetings[id] || "Hello, I am Ki-ri-mi-chan!");
-  greeting.lang = 'en-US';
-  speechSynthesis.speak(greeting);
-}
-      } catch (e) {
-        console.warn('Tab switch sound error:', e);
-      }
-    }
-
-    function toggleChat() {
-      document.getElementById("chatbox").classList.toggle("hidden");
-    }
-
     function populateVoiceList() {
       const voiceSelect = document.getElementById('voice-select');
       availableVoices = speechSynthesis.getVoices();
@@ -214,7 +151,6 @@
         voiceSelect.appendChild(option);
       });
     }
-
     speechSynthesis.onvoiceschanged = populateVoiceList;
 
     function startListening() {
@@ -223,20 +159,8 @@
       recognition.interimResults = false;
       recognition.continuous = false;
 
-      const log = document.getElementById("chat-log");
       const inputBox = document.getElementById("user-input");
-      const micButton = document.getElementById("mic-button");
-      const fish = document.getElementById("swim-fish");
-
-      startSound.play();
-      micButton.classList.add("listening");
-      micButton.disabled = true;
-      micButton.innerText = "🔴 Listening...";
-
-      fish.style.display = "block";
-      fish.style.animation = "none";
-      fish.offsetHeight;
-      fish.style.animation = null;
+      const log = document.getElementById("chat-log");
 
       log.innerHTML += `<div><em>🎙️ Listening... (speak now)</em></div>`;
 
@@ -244,47 +168,22 @@
         const transcript = event.results[0][0].transcript;
         inputBox.value = transcript;
       };
-
       recognition.onerror = (event) => {
         log.innerHTML += `<div><em>❌ Voice error: ${event.error}</em></div>`;
       };
-
       recognition.onend = () => {
-        stopSound.play();
-        micButton.classList.remove("listening");
-        micButton.disabled = false;
-        micButton.innerText = "🎤 Speak";
-        fish.style.display = "none";
-
         if (inputBox.value.trim()) {
           kirimichanReply();
         } else {
           log.innerHTML += `<div><em>⚠️ No voice detected.</em></div>`;
         }
       };
-
       recognition.start();
-    }
-
-    function whisperSecret() {
-      const secrets = [
-        "Psst... I once swam into a sushi restaurant and made it out!",
-        "Did you know whales gossip about us salmon?",
-        "The seaweed always looks greener in the neighbor's reef."
-      ];
-      const secret = secrets[Math.floor(Math.random() * secrets.length)];
-      const utter = new SpeechSynthesisUtterance(secret);
-      utter.volume = 0.5;
-      utter.rate = 1.1;
-      utter.pitch = 1;
-      utter.lang = 'en-US';
-      speechSynthesis.speak(utter);
     }
 
     async function kirimichanReply() {
       const input = document.getElementById("user-input").value;
       if (!input) return;
-
       const log = document.getElementById("chat-log");
       const loading = document.getElementById("chat-loading");
       log.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
@@ -297,55 +196,27 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query: input })
         });
-
         const result = await response.json();
         const reply = result.response || "Hmm, I'm thinking...";
-
         log.innerHTML += `<div><strong>Kirimichan:</strong> ${reply}</div>`;
-
         const utterance = new SpeechSynthesisUtterance(reply);
         utterance.lang = 'en-US';
         const selectedVoiceIndex = document.getElementById('voice-select').value;
         if (availableVoices[selectedVoiceIndex]) {
           utterance.voice = availableVoices[selectedVoiceIndex];
         }
-
-        utterance.onend = () => {
-          log.innerHTML += `<div style="text-align:right;">🎉🐟</div>`;
-        };
-
         speechSynthesis.speak(utterance);
       } catch (error) {
         console.error("Chatbot error:", error);
         log.innerHTML += `<div><strong>Kirimichan:</strong> I'm a little tired, please try again!</div>`;
       }
-
       loading.style.display = "none";
       log.scrollTop = log.scrollHeight;
     }
 
     window.onload = () => {
-  setTimeout(() => {
-    if (typeof showTab === 'function') {
-      showTab('memoirs');
-    }
-    populateVoiceList();
-    toggleChat();
-    whisperSecret();
-
-    const tabGreetings = {
-  memoirs: "Ahoy, memory divers! Welcome to my soggy past!",
-  travels: "Bonjour! Let’s wander the world — or at least pretend to!",
-  thoughts: "Namaste! Ready to overthink like a deep-sea monk?",
-  books: "Welcome to my library of soggy scrolls and fishy fables!",
-  agency: "Ready to book a vacation with a fish who barely uses Google Maps?"
-};
-const currentTab = 'memoirs';
-const greeting = new SpeechSynthesisUtterance(tabGreetings[currentTab] || "Hello, I am Ki-ri-mi-chan!");
-    greeting.lang = 'en-US';
-    speechSynthesis.speak(greeting);
-  }, 100);
-};
+      populateVoiceList();
+    };
   </script>
 </body>
 </html>
