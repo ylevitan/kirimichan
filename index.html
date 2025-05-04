@@ -38,17 +38,6 @@
       cursor: pointer;
       font-weight: bold;
     }
-    .tab-content {
-      background: rgba(255, 255, 255, 0.9);
-      color: black;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
     .tab-button:hover {
       background: #ffb6b6;
       transform: scale(1.05);
@@ -93,7 +82,6 @@
     <button class="tab-button" data-tab="books">Books & References 📚</button>
     <button class="tab-button" data-tab="agency">Travel Agency ✈️</button>
   </div>
-  
 
   <div id="chatbox">
     <div style="margin-bottom: 10px;">
@@ -111,37 +99,28 @@
     const stopSound = new Audio("stop-listening.mp3");
     const tabSwitchSound = new Audio("tab-switch.mp3");
 
-    const buttons = document.querySelectorAll(".tab-button");
-    const contents = document.querySelectorAll(".tab-content");
+    const tabToPage = {
+      "memoirs": "memoirs.html",
+      "travels": "travels.html",
+      "thoughts": "thoughts.html",
+      "books": "books.html",
+      "agency": "agency.html"
+    };
 
-    
-const buttons = document.querySelectorAll(".tab-button");
-const tabToPage = {
-  "memoirs": "memoirs.html",
-  "travels": "travels.html",
-  "thoughts": "thoughts.html",
-  "books": "books.html",
-  "agency": "agency.html"
-};
-
-buttons.forEach(button => {
-  button.addEventListener("click", () => {
-    const tabId = button.getAttribute("data-tab");
-    try {
-      tabSwitchSound.currentTime = 0;
-      tabSwitchSound.play();
-    } catch (e) {
-      console.warn('Tab switch sound error:', e);
-    }
-    setTimeout(() => {
-      window.location.href = tabToPage[tabId];
-    }, 300); // delay for sound
-  });
-});
-
+    document.querySelectorAll(".tab-button").forEach(button => {
+      button.addEventListener("click", () => {
+        const tabId = button.getAttribute("data-tab");
+        try {
+          tabSwitchSound.currentTime = 0;
+          tabSwitchSound.play();
+        } catch (e) {
+          console.warn('Tab switch sound error:', e);
+        }
+        setTimeout(() => {
+          window.location.href = tabToPage[tabId];
+        }, 300);
+      });
     });
-
-    document.getElementById("memoirs").classList.add("active");
 
     let availableVoices = [];
     function populateVoiceList() {
