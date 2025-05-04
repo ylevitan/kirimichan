@@ -5,18 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="kirimichan-favicon.ico" type="image/x-icon" />
   <title>Kirimichan’s World of Wonders 🐟</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background: url('kir_w_fone.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 0.2em;
+      color: black;
+    }
+    .tagline {
+      text-align: center;
+      font-style: italic;
+      margin-bottom: 30px;
+    }
+    .tabs {
+      max-width: 800px;
+      margin: auto;
+    }
+    .tab-button {
+      padding: 10px 20px;
+      margin: 5px;
+      background: #ffd6d6;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tab-content {
+      background: rgba(255, 255, 255, 0.9);
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .tab-button:hover {
+      background: #ffb6b6;
+      transform: scale(1.05);
+      transition: all 0.2s ease;
+    }
+    #chatbox {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      color: black;
+      border-radius: 10px;
+      padding: 10px;
+      width: 280px;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    #chat-log {
+      max-height: 150px;
+      overflow-y: auto;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    #user-input {
+      width: 100%;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    #mic-button {
+      margin-top: 5px;
+    }
+  </style>
 </head>
-<body class="menu">
+<body>
   <h1>Kirimichan’s World of Wonders 🐟</h1>
   <p class="tagline">“One salmon’s swim through memory, meaning, and maps.”</p>
   <div class="tabs">
-    <a class="tab-button" href="memoirs.html">Memoirs</a>
-    <a class="tab-button" href="travels.html">Travels 🌍</a>
-    <a class="tab-button" href="thoughts.html">Profound Thoughts 💭</a>
-    <a class="tab-button" href="books.html">Books & References 📚</a>
-    <a class="tab-button" href="agency.html">Travel Agency ✈️</a>
+    <button class="tab-button" data-tab="memoirs">Memoirs</button>
+    <button class="tab-button" data-tab="travels">Travels 🌍</button>
+    <button class="tab-button" data-tab="thoughts">Profound Thoughts 💭</button>
+    <button class="tab-button" data-tab="books">Books & References 📚</button>
+    <button class="tab-button" data-tab="agency">Travel Agency ✈️</button>
   </div>
+  
 
   <div id="chatbox">
     <div style="margin-bottom: 10px;">
@@ -33,6 +110,38 @@
     const startSound = new Audio("start-listening.mp3");
     const stopSound = new Audio("stop-listening.mp3");
     const tabSwitchSound = new Audio("tab-switch.mp3");
+
+    const buttons = document.querySelectorAll(".tab-button");
+    const contents = document.querySelectorAll(".tab-content");
+
+    
+const buttons = document.querySelectorAll(".tab-button");
+const tabToPage = {
+  "memoirs": "memoirs.html",
+  "travels": "travels.html",
+  "thoughts": "thoughts.html",
+  "books": "books.html",
+  "agency": "agency.html"
+};
+
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    const tabId = button.getAttribute("data-tab");
+    try {
+      tabSwitchSound.currentTime = 0;
+      tabSwitchSound.play();
+    } catch (e) {
+      console.warn('Tab switch sound error:', e);
+    }
+    setTimeout(() => {
+      window.location.href = tabToPage[tabId];
+    }, 300); // delay for sound
+  });
+});
+
+    });
+
+    document.getElementById("memoirs").classList.add("active");
 
     let availableVoices = [];
     function populateVoiceList() {
