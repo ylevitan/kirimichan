@@ -1,0 +1,62 @@
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  color: white;
+  margin: 0;
+  padding: 40px;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  transition: background-image 0.5s ease-in-out;
+}
+
+body.menu {
+  background-image: url('bg-home.jpg');
+  text-align: center;
+}
+
+body.memoirs {
+  background-image: url('bg-memoirs.jpg');
+}
+
+body.travels {
+  background-image: url('bg-travels.jpg');
+}
+
+body.thoughts {
+  background-image: url('bg-thoughts.jpg');
+}
+
+body.books {
+  background-image: url('bg-books.jpg');
+}
+
+body.agency {
+  background-image: url('bg-agency.jpg');
+}
+
+.tab-button, .back-button {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 20px;
+  background: #ffd6d6;
+  border-radius: 12px;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover, .back-button:hover {
+  background: #ffb6b6;
+  transform: scale(1.05);
+}
+
+.tagline {
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+h1, h2 {
+  color: #fff;
+  text-shadow: 1px 1px 3px #000;
+}
